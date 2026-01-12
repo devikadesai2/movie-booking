@@ -1,0 +1,32 @@
+services:
+  # Backend Web Service
+  - type: web
+    name: movie-booking-api
+    env: node
+    plan: free
+    rootDir: server
+    buildCommand: npm install
+    startCommand: npm start
+    envVars:
+      - key: PORT
+        value: 5000
+      - key: MONGO_URI
+        sync: false # Set this in the Render dashboard manually (e.g., MongoDB Atlas URI)
+      - key: JWT_SECRET
+        generateValue: true
+
+  # Frontend Static Site
+  - type: static
+    name: movie-booking-frontend
+    env: static
+    plan: free
+    rootDir: client
+    buildCommand: npm install && npm run build
+    publishDir: dist
+    envVars:
+      - key: VITE_API_BASE_URL
+        fromService:
+          type: web
+          name: movie-booking-api
+          property: host
+
