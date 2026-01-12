@@ -16,7 +16,7 @@ services:
         generateValue: true
 
   # Frontend Static Site
-  - type: static
+  - type: web
     name: movie-booking-frontend
     env: static
     plan: free
